@@ -111,11 +111,116 @@
     }
 
     .spacer-1 {
-      flex: 0 0 15vh;
+      flex: 0 0 12vh;
     }
 
     .spacer-2 {
-      flex: 0 0 15vh;
+      flex: 0 0 10vh;
+    }
+
+    .tip-jar {
+      margin-top: 5rem;
+      width: 100%;
+      max-width: 560px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .bottom-space {
+      flex: 0 0 360px;
+    }
+
+    .tip-jar h2 {
+      font-size: 1.05rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      opacity: 0.85;
+      line-height: 1.4;
+      transition: margin-bottom 0.4s ease;
+    }
+
+    .tip-jar:hover h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .tip-options {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 1.5rem;
+      justify-content: center;
+      width: 100%;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.45s ease, opacity 0.45s ease;
+    }
+
+    .tip-jar:hover .tip-options {
+      max-height: 320px;
+      opacity: 1;
+    }
+
+    .tip-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      flex: 1 1 0;
+      min-width: 0;
+    }
+
+    .tip-label {
+      font-size: 1rem;
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .tip-qr {
+      background: #fff;
+      padding: 10px;
+      border-radius: 12px;
+      line-height: 0;
+    }
+
+    .tip-qr img {
+      display: block;
+      width: 160px;
+      height: 160px;
+    }
+
+    .tip-handle {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 999px;
+      padding: 0.5rem 0.9rem;
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .tip-handle:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
+
+    .tip-handle .copy-icon {
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    .tip-handle.copied {
+      background: rgba(120, 220, 140, 0.18);
+      border-color: rgba(120, 220, 140, 0.4);
     }
   </style>
 </head>
@@ -144,7 +249,59 @@
     </div>
   </a>
 
+  <div class="tip-jar backplate">
+    <h2>We helped you with your decisions.<br>Here's a chance to help us.</h2>
+    <div class="tip-options">
+      <div class="tip-option">
+        <span class="tip-label">Bitcoin</span>
+        <div class="tip-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=bitcoin%3A3EJVv7CT1y8DJn1DXWLSp3ziDREzWz3pBc&bgcolor=ffffff&color=0a0a0f&margin=0" alt="BTC address QR code">
+        </div>
+        <button type="button" class="tip-handle" data-copy="3EJVv7CT1y8DJn1DXWLSp3ziDREzWz3pBc" data-label="Click to copy">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span>Click to copy</span>
+        </button>
+      </div>
+      <div class="tip-option">
+        <span class="tip-label">Ethereum</span>
+        <div class="tip-qr">
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=ethereum%3A0xf15605EeD40560cfB1cd4914376A3c652F3bE85e&bgcolor=ffffff&color=0a0a0f&margin=0" alt="ETH address QR code">
+        </div>
+        <button type="button" class="tip-handle" data-copy="0xf15605EeD40560cfB1cd4914376A3c652F3bE85e" data-label="Click to copy">
+          <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+          <span>Click to copy</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-space"></div>
+
   <script>
+    document.querySelectorAll('.tip-handle').forEach(btn => {
+      const labelEl = btn.querySelector('span');
+      const originalLabel = btn.dataset.label || labelEl.textContent;
+      btn.addEventListener('click', async () => {
+        const text = btn.dataset.copy;
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (e) {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+        }
+        btn.classList.add('copied');
+        labelEl.textContent = 'Copied!';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          labelEl.textContent = originalLabel;
+        }, 1400);
+      });
+    });
+
     const container = document.querySelector('.bg-questions');
     const count = 20;
     for (let i = 0; i < count; i++) {
