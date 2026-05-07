@@ -129,6 +129,24 @@
       text-align: center;
     }
 
+    .pitch {
+      margin-top: 5rem;
+      width: 100%;
+      max-width: 620px;
+      padding: 1.5rem 1.75rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.55;
+      letter-spacing: 0.01em;
+      opacity: 0.88;
+    }
+
+    .pitch em {
+      font-style: italic;
+      opacity: 0.75;
+    }
+
     .bottom-space {
       flex: 0 0 360px;
     }
@@ -140,10 +158,8 @@
       opacity: 0.85;
       line-height: 1.4;
       transition: margin-bottom 0.4s ease;
-    }
-
-    .tip-jar:hover h2 {
-      margin-bottom: 1.25rem;
+      cursor: pointer;
+      user-select: none;
     }
 
     .tip-options {
@@ -159,9 +175,32 @@
       transition: max-height 0.45s ease, opacity 0.45s ease;
     }
 
-    .tip-jar:hover .tip-options {
-      max-height: 320px;
+    @media (hover: hover) {
+      .tip-jar:hover h2 {
+        margin-bottom: 1.25rem;
+      }
+
+      .tip-jar:hover .tip-options {
+        max-height: 320px;
+        opacity: 1;
+      }
+    }
+
+    .tip-jar.is-open h2 {
+      margin-bottom: 1.25rem;
+    }
+
+    .tip-jar.is-open .tip-options {
+      max-height: 800px;
       opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .tip-options {
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+      }
     }
 
     .tip-option {
@@ -249,8 +288,12 @@
     </div>
   </a>
 
+  <div class="pitch backplate">
+    If anyone, maybe with the <em>*cough*</em> New York Times, would like to purchase this app for, I don't know...some undisclosed amount of money, somewhere in the <em>*cough*</em> seven figures, (like...you know...you did with Wordle), let me know. <em>*wink wink*</em>
+  </div>
+
   <div class="tip-jar backplate">
-    <h2>We helped you with your decisions.<br>Here's a chance to help us.</h2>
+    <h2>I helped you make a decision, YAY!<br>Your financial support helps me decide if I can live another day 😊</h2>
     <div class="tip-options">
       <div class="tip-option">
         <span class="tip-label">Bitcoin</span>
@@ -278,6 +321,18 @@
   <div class="bottom-space"></div>
 
   <script>
+    const tipJar = document.querySelector('.tip-jar');
+    const tipHeading = tipJar.querySelector('h2');
+    tipHeading.addEventListener('click', () => {
+      const opening = !tipJar.classList.contains('is-open');
+      tipJar.classList.toggle('is-open');
+      if (opening) {
+        setTimeout(() => {
+          tipJar.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }, 480);
+      }
+    });
+
     document.querySelectorAll('.tip-handle').forEach(btn => {
       const labelEl = btn.querySelector('span');
       const originalLabel = btn.dataset.label || labelEl.textContent;
