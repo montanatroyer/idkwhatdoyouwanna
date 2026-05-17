@@ -63,11 +63,19 @@
     }
 
     h1 {
-      font-size: clamp(1.8rem, 5vw, 3.2rem);
+      font-size: clamp(1.3rem, 3.5vw, 2.2rem);
       text-align: center;
       line-height: 1.3;
       font-weight: 700;
       letter-spacing: -0.02em;
+    }
+
+    .title-row {
+      display: flex;
+      align-items: stretch;
+      gap: 1.25rem;
+      position: relative;
+      z-index: 1;
     }
 
     .choice {
@@ -261,13 +269,45 @@
       background: rgba(120, 220, 140, 0.18);
       border-color: rgba(120, 220, 140, 0.4);
     }
+
+    .hat-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: #fff;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 20px;
+      padding: 0 1.75rem;
+      font-family: inherit;
+      font-size: clamp(1.1rem, 2.8vw, 1.8rem);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .hat-link:hover {
+      background: rgba(255, 255, 255, 0.16);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 <body>
   <div class="bg-questions" aria-hidden="true"></div>
 
-  <div class="backplate">
-    <h1>I Don't Know What Do You Wanna-</h1>
+  <div class="title-row">
+    <div class="backplate">
+      <h1>I Don't Know What Do You Wanna-</h1>
+    </div>
+
+    <a href="https://hatatrandom.vercel.app" class="hat-link">
+      <span>🎩</span>
+      <span>Hat</span>
+    </a>
   </div>
 
   <div class="spacer-1"></div>
